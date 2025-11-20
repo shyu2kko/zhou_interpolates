@@ -1,11 +1,9 @@
-# Hello let's start interpolatin'
+# get interpolatin' !
 
-NOVEMBER 2025
+[NOVEMBER 2025] Repository for project "Benchmarking spatial interpolation methods for cortical maps"
 
-Repository for project "Benchmarking spatial interpolation methods for cortical maps"
+## to use `interpmodules`
+initialize dependencies contained in `.toml` file
 
-## To use `interpmodules`
-**make sure to initialize dependencies contained in environment**
-
-## To run wrapper functions in /code:
-**make sure to configure your local working environment by editing paths in `config.py`**
+## to run wrapper functions in /code:
+configure your local working environment by **editing paths in `config.py`**
