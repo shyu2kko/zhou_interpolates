@@ -1,0 +1,23 @@
+[project]
+name = "interpolate"
+version = "0.1.0"
+description = "Benchmarking spatial interpolation for cortical maps, fibonacci sampling spheres"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "abagen",
+    "gstools",
+    "joblib",
+    "mgwr",
+    "neuromaps",
+    "nibabel",
+    "nilearn",
+    "numpy",
+    "pandas",
+    "pykrige",
+    "pyvista==0.46.0",
+    "scikit-gstat",
+    "scikit-image==0.25.0",
+    "scikit-learn",
+    "scipy"
+]
