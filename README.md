@@ -2,7 +2,7 @@
 
 repository for project "Benchmarking spatial interpolation methods for cortical maps"
 
-# interpol8r
+# *polator
  
 ## to use `interpmodules`
 initialize dependencies contained in `.toml` file

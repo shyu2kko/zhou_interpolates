@@ -3,8 +3,6 @@ import wrappers
 
 import argparse as argp
 
-from joblib import Parallel, delayed, parallel_backend
-
 parser = argp.ArgumentParser()
 parser.add_argument("--geometry", '-g', type=StopIteration)
 parser.add_argument("--percentage", '-pc', type=int)
@@ -25,6 +23,7 @@ desc,all_sampling = fetch_sample(**dict(args._get_kwargs()))
 print(desc)
 print(polydata.array_names)
 
+print('building covariates')
 Yk0 = wrappers.generate_covariates(polydata[args.maptag], polydata, 3000, 'grf')
 
 
@@ -37,11 +36,7 @@ set_up_analysis = {"datasource": 'grf', \
                     "tags": dict(args._get_kwargs()), \
                     "verbose": 1}
 
-with parallel_backend('multiprocessing', n_jobs=50):
-    Parallel()(
-        delayed(wrappers.run_one_iteration)(
-            **set_up_analysis,
-            curr_iter=iter_id
-        )
-        for iter_id in range(niterations)
-    )
+for iter_id in range(niterations):
+    wrappers.run_one_iteration(
+                **set_up_analysis,
+                curr_iter=iter_id)

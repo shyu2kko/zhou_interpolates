@@ -115,7 +115,7 @@ def run_one_iteration(datasource, curr_iter, \
     known_verts = all_known_verts[:,curr_iter].astype(int)
     unknown_coords = all_unknown_coords[:,:,curr_iter]
     unknown_verts = all_unknown_verts[:,curr_iter].astype(int)
-
+    
     RETURN_INFO = dict.fromkeys(steps)
     RETURN_INFO['determ_params'] = np.empty(4, dtype = 'object')
     RETURN_INFO['interpolated'] = dict.fromkeys(approaches)
@@ -176,6 +176,7 @@ def run_one_iteration(datasource, curr_iter, \
         print('UNKNOWN (actual) value array :' + str(y0.shape))
 
     # approach=inverse distance weighting, optimized for powers 1 through 10
+    if verbose: print(f"----------IDW ongoing at iteration {curr_iter}")
     res_best, param_best, rt = deterministic.interpolate_and_optimize(method='idw', X0=X0, Y0=Y0, x1=x1, ground_truth=y0, bounds=[1,10])
     RETURN_INFO['determ_params'][0] = param_best
     RETURN_INFO['interpolated']['idw'] = res_best
@@ -183,6 +184,7 @@ def run_one_iteration(datasource, curr_iter, \
     RUN_TIMES['idw'] = rt
 
     # approach=k nearest neighbours, optimized for neighbours 2 through 20
+    if verbose: print(f"----------KNN ongoing at iteration {curr_iter}")
     res_best, param_best, rt = deterministic.interpolate_and_optimize(method='knn', X0=X0, Y0=Y0, x1=x1, ground_truth=y0, bounds=[2,20])
     RETURN_INFO['determ_params'][1] = param_best
     RETURN_INFO['interpolated']['knn'] = res_best
@@ -191,6 +193,7 @@ def run_one_iteration(datasource, curr_iter, \
 
     # approach=radial basis function, optimized for neighbours 2 through 20 across kernel functions. see deterministic module for list of kernels
     # some kernels don't work for too few neighbours so adjustments were made in deterministic module
+    if verbose: print(f"----------RBF ongoing at iteration {curr_iter}")
     res_best, param_best,rt = deterministic.interpolate_and_optimize(method='rbf', X0=X0, Y0=Y0, x1=x1, ground_truth=y0, bounds=[2,20])
     RETURN_INFO['determ_params'][2:] = param_best
     RETURN_INFO['interpolated']['rbf'] = res_best
@@ -198,10 +201,11 @@ def run_one_iteration(datasource, curr_iter, \
     RUN_TIMES['rbf'] = rt
 
 
-
+    
     #========================GEOSPATIAL=======================#
     # approach=kriging and regression kriging, ignore if variogram fit is unsatisfactory; it is expected that not all random samples at this sparsity works
     try:
+        if verbose: print(f"----------Kriging ongoing at iteration {curr_iter}")
         res_best, _, rt = geospatial.interpolate_Krige(X0=X0, Y0=Y0, x1=x1, x_mesh = reduced_mesh, method='Simple',timeit=True)
         RETURN_INFO['interpolated']['krige'] = res_best
         RUN_TIMES['krige'] = rt
@@ -211,6 +215,7 @@ def run_one_iteration(datasource, curr_iter, \
         x1 = np.array(unknown_coords, dtype = np.float64)
         yk1 = Yk0[:,unknown_verts]
 
+        if verbose: print(f"----------Regression kriging ongoing at iteration {curr_iter}")
         res_best, _,rt = geospatial.interpolate_Krige(X0=X0, Y0=Y0, x1=x1, x_mesh = reduced_mesh, Yk=Yk, yk=yk1, method = 'Regression',timeit=True)
         RETURN_INFO['interpolated']['regkrige'] = res_best
         RUN_TIMES['regkrige'] = rt
@@ -220,14 +225,15 @@ def run_one_iteration(datasource, curr_iter, \
         RETURN_INFO['interpolated']['regkrige'] = np.nan
         RUN_TIMES['krige'] = np.nan
         RUN_TIMES['regkrige'] = np.nan
-        if verbose: print("could not fit a positive-variance gaussian model")
-        
+        if verbose: print("       >:(  00PS: could not fit a positive-variance gaussian model !!       ")
+    
     # approach=spatially weighted regression. zero out unknown locations and use the learned coefficients at known locations to predict values
     X0_extended = reduced_mesh.points
     Y0_extended = copy.deepcopy(ground_truth)
     Y0_extended[unknown_verts] = 0
     Yk_extended = Yk0
 
+    if verbose: print(f"----------GWR ongoing at iteration {curr_iter}")
     res_best, rt = geospatial.smoothing_over_GWR(X0=X0_extended, Y0=Y0_extended, Yk0=Yk_extended, bandwidth=None, timeit=True)
     res_best = res_best[unknown_verts]
     RETURN_INFO['interpolated']['swr'] = res_best

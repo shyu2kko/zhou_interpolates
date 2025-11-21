@@ -39,7 +39,7 @@ def _learn_gw_regressor(X0, Y0, Yk0, bandwidth, spherical=True):
     KERNEL BEING BISQUARE WITH ADAPTIVE NEIGHBOURHOOD FOR MAKING WEIGHTS (binary)
     
     '''
-    
+
     Lon, Lat, Rho = helpers._cartesian_to_spherical(X0, unit='degrees')
     Sph = np.vstack([Lon, Lat])
 
@@ -75,8 +75,9 @@ def smoothing_over_GWR(X0, Y0, Yk0, bandwidth, spherical=True, timeit=False):
     
     '''
     if timeit: t1 = time.time()
+
         
-    regressor, selector = _learn_gw_regressor(X0, Y0, Yk0, bandwidth, spherical=True)
+    regressor, selector = _learn_gw_regressor(X0, Y0, Yk0, bandwidth, spherical=spherical)
     regressor = regressor.fit()
 
     y1_interp = regressor.predy.flatten()
