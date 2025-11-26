@@ -18,7 +18,7 @@ def generate_covariates(curr_map, mesh, nspins=1000, datasource='grf'):
     from scipy.ndimage import gaussian_filter1d
     
 
-    ground_truth = curr_map
+    ground_truth = mesh[curr_map]
     Yk0 = None
 
     if datasource == 'grf':
@@ -49,7 +49,6 @@ def generate_covariates(curr_map, mesh, nspins=1000, datasource='grf'):
         weights = [ helpers.gaussian_sphere(X, opoint, 1) for opoint in opoints]
 
         neighbours = [tree.query(x=opoint, k=mesh.n_points - 1)[0] for opoint in opoints ]
-        probabilities = [ weights[i] / np.sum(weights[i]) for i in range(len(neighbours)) ]
 
         # MAKE COVARIATES
 
@@ -69,6 +68,27 @@ def generate_covariates(curr_map, mesh, nspins=1000, datasource='grf'):
         X_covariates = np.vstack([xk1, xk2, xk3, xk4, xk6])
 
         X_covariates = np.array(X_covariates, dtype = np.float64)
+        Yk0 = X_covariates
+    
+    elif datasource == 'neuromaps':
+
+        # find top 5 correlates
+        #----------STEP 2.1. Build correlation matrix between maps-------------#
+        CMAT = np.ones((len(MAP_NAMES), len(MAP_NAMES)))
+        for i, map_name1 in enumerate(MAP_NAMES):
+            for j,map_name2 in enumerate(MAP_NAMES):
+                if map_name1 != map_name2: 
+                    CMAT[i,j] = np.ma.corrcoef(np.ma.masked_invalid(mesh[map_name1]), \
+                                            np.ma.masked_invalid(mesh[map_name2]))[1,0]
+
+
+        #------------CHOOSE COVARIATES FOR REGRESSION INTERPOLATIONS--------------#
+        chosen_map_idx = abs(CMAT[MAP_NAMES.index(curr_map),:]).argsort()
+        top5_cov = np.array(MAP_NAMES)[chosen_map_idx][-6:-1] # top five covariates
+        print(curr_map)
+        print(top5_cov)
+        print(CMAT[chosen_map_idx, MAP_NAMES.index(curr_map)][-6:-1])
+        X_covariates = np.vstack([mesh[top5_cov_i] for top5_cov_i in top5_cov])
         Yk0 = X_covariates
 
     return Yk0
