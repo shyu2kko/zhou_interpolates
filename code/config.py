@@ -2,7 +2,7 @@
 configuration file
 '''
 
-projdir = "/home/yzhou/gitrepo/interpolate/"
+projdir = "/home/bic/yiguz/projects/interpolate/"
 outdir = projdir + '/results/'
 
 template = 'fsLR-4k'
