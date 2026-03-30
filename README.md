@@ -11,18 +11,14 @@ Notebooks that contains main analyses and figures are stored here. Each notebook
 
 This folder contains scripted runs and wrappers for interpolation functions.
 
-`/interpmodules`
-
-This subfolder contains spatially-agnostic (`deterministic`) and spatially-informed (`geospatial`) interpolation functions.
+`/interpmodules` contains spatially-agnostic (`deterministic`) and spatially-informed (`geospatial`) interpolation functions.
 
 
 ### `data`
 
 This folder contains GRF, empirical surface and volume maps (from Neuromaps), each stored as a Pyvista.PolyData object.
 
-`/sampling`
-
-This subfolder contains data matrixes that shuffle training and testing samples with the spherical or midthckness template surfaces.
+`/sampling` contains data matrixes that shuffle training and testing samples with the spherical or midthckness template surfaces.
 
 ## Requirements
 
