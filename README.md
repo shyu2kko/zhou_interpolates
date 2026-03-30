@@ -27,7 +27,7 @@ This subfolder contains data matrixes that shuffle training and testing samples 
 ## Requirements
 
 **Environment.** Python 3.11.5, GNU bash 5.1.16 \
-**Software.** The experiments presented utilize a number of published and openly available packages for generation, processing, and analysis of spatial data. \
+**Software.** The experiments presented utilize a number of published and openly available packages for generation, processing, and analysis of spatial data.
 
 GSTools \
 MGWR \
