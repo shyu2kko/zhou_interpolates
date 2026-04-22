@@ -1,0 +1,32 @@
+#!/bin/bash
+
+mode=$1
+echo ":::::::::::::::::::Thank you for setting analysis mode to:"
+echo ''
+echo "                   $1"
+echo ''
+
+
+wdir=../
+export datadir="${wdir}/data"
+
+export percentages=(5 10 25 50)
+
+if [ "$mode" = "grf" ]; then
+    export maptags=('25' '50' '75' '100')
+elif [ "$mode" = "neuromaps" ]; then
+    IFS=$' ' read -d '' -a maptags < $datadir/surf_map_names
+elif [ "$mode" = "microarray" ]; then
+    unset percentages
+    export percentages=100
+    maptags=( $(tail -n +2 $datadir/beliveau2017_serotonergic_names_mappings.csv | cut -d ',' -f4) )
+    export maptags=( "${maptags[@]/#/mrna_}" )
+elif [ "$mode" = "ieeg" ]; then
+    unset percentages
+    export percentages=100
+    export maptags=('delta' 'theta' 'alpha' 'beta' 'gamma1' 'gamma2')
+fi
+
+echo "Interpolation analyses will proceed for"
+echo "                       sparsity: ${percentages[@]}"
+echo "                       maps: ${maptags[@]}"
