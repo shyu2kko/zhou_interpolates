@@ -8,6 +8,7 @@ from config import *
 
 from interpmodules import helpers
 import joblib
+import neuromaps.datasets
 import nibabel as nb
 import numpy as np
 import pyvista as pv

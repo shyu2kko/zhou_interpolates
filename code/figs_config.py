@@ -61,3 +61,7 @@ def show_colour_scheme(cmap, map_name):
     plt.imshow(np.linspace(0,1,256)[None,:], aspect = 'auto', cmap = cmap)
     plt.title(map_name)
     plt.show()
+
+# MAIN COLOUR MAPS
+bpr,_ = three_colours_gradient(lo=plt.cm.Blues(0.7), mid=plt.cm.PuRd(0.4), hi=plt.cm.Oranges(0.6), plot=False)
+gnrd,_ = three_colours_gradient(lo=plt.cm.Blues(0.7), mid=plt.cm.YlOrBr(0.1), hi=plt.cm.Oranges(0.6), plot=False)

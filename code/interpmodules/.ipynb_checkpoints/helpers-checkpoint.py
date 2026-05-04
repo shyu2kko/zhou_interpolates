@@ -46,7 +46,7 @@ def cv_distdep_noreplace(pvdata, center, nfolds, rseed=321):
     
         dist = np.linalg.norm( coords[available] - center, axis = 1)
     
-        sigma = np.quantile(dist, pct)
+        sigma = .5
 
         # weigh w/ a gaussian kernel
         
