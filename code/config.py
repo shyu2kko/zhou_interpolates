@@ -5,7 +5,7 @@ configuration
 
 import numpy as np
 
-projdir = "/path/to/project/directory/"
+projdir = "../"
 outdir = projdir + '/results/'
 
 template = 'fsLR-4k'
