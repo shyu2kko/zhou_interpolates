@@ -18,6 +18,7 @@ point_aes = {"render_points_as_spheres": True, "diffuse":0, "ambient":1,"specula
 
 aorder = approaches
 
+# colours for interpolation approaches
 acolours = [
     to_hex(plt.cm.spring(0.3)),  # idw: pink
     to_hex(plt.cm.spring(0.65)),  # knn: orange
@@ -28,6 +29,19 @@ acolours = [
 ]
 
 apal = dict(zip(aorder, acolours))
+
+# categories for neuromaps surface maps
+corder = ['gene expression', 'MEG', 'structural', 'functional', 'metabolism', 'expansion']
+ccolours = [
+    to_hex(plt.cm.terrain(0.2)),  # gene: light turquoise
+    to_hex(plt.cm.spring(0.65)),  # MEG: orange
+    to_hex(plt.cm.cubehelix(0.7)),  # structural: violet
+    to_hex(plt.cm.terrain(0.3)),  # functional: green
+    to_hex(plt.cm.nipy_spectral(0.3)), # metabolism: blue
+    to_hex(plt.cm.spring(0.37)) # expansion: pink
+]
+
+cpal = dict(zip(corder, ccolours))
 
 def three_colours_gradient(lo, mid, hi, plot=True):
 
