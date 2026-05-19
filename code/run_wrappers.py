@@ -200,7 +200,7 @@ def run_one_iteration(datasource, curr_iter, \
     #import copy
     import sys
     sys.path.append('../')
-    from interpmodules import deterministic, geospatial, helpers, metrics
+    from interpmodules import deterministic, stochastic, helpers, metrics
     import joblib
     import numpy as np
     import pandas as pd
@@ -339,7 +339,7 @@ def run_one_iteration(datasource, curr_iter, \
 
 
     
-    #========================GEOSPATIAL=======================#
+    #========================STOCHASTIC=======================#
     # approach=kriging and regression kriging, ignore if variogram fit is unsatisfactory; it is expected that not all random samples at this sparsity works
 
     # subsampling covariates
@@ -349,12 +349,12 @@ def run_one_iteration(datasource, curr_iter, \
     
     try:
         if verbose: print(f"----------Kriging ongoing at iteration {curr_iter}")
-        res_best, _, rt = geospatial.interpolate_Krige(X0=known_coords, Y0=input_vals, x1=unknown_coords, method='Simple',timeit=True)
+        res_best, _, rt = stochastic.interpolate_Krige(X0=known_coords, Y0=input_vals, x1=unknown_coords, method='Simple',timeit=True)
         RETURN_INFO['interpolated']['krige'] = res_best
         RUN_TIMES['krige'] = rt
 
         if verbose: print(f"----------Regression kriging ongoing at iteration {curr_iter}")
-        res_best, _,rt = geospatial.interpolate_Krige(X0=known_coords, Y0=input_vals, x1=unknown_coords, Yk0=Yk, yk1=yk1, method = 'Regression',timeit=True)
+        res_best, _,rt = stochastic.interpolate_Krige(X0=known_coords, Y0=input_vals, x1=unknown_coords, Yk0=Yk, yk1=yk1, method = 'Regression',timeit=True)
         RETURN_INFO['interpolated']['regkrige'] = res_best
         RUN_TIMES['regkrige'] = rt
 
@@ -373,14 +373,14 @@ def run_one_iteration(datasource, curr_iter, \
     #Yk_extended = Yk0
 
     if verbose: print(f"----------GWR ongoing at iteration {curr_iter}")
-    #res_best, rt = geospatial.smoothing_over_GWR(X0=X0_extended, Y0=Y0_extended, Yk0=Yk_extended, bandwidth=None, timeit=True)
+    #res_best, rt = stochastic.smoothing_over_GWR(X0=X0_extended, Y0=Y0_extended, Yk0=Yk_extended, bandwidth=None, timeit=True)
     #res_best = res_best[unknown_verts]
     #RETURN_INFO['interpolated']['swr'] = res_best
     #RUN_TIMES['swr'] = rt
     # fixed prediction at spatially-weighted regression
 
     try:
-        res_best, rt = geospatial.interpolate_SWR(X0=known_coords, Y0=input_vals, x1=unknown_coords, Yk0=Yk, yk1=yk1, timeit=True)
+        res_best, rt = stochastic.interpolate_SWR(X0=known_coords, Y0=input_vals, x1=unknown_coords, Yk0=Yk, yk1=yk1, timeit=True)
         RETURN_INFO['interpolated']['swr'] = res_best
         RUN_TIMES['swr'] = rt
     except np.linalg.LinAlgError:
