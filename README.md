@@ -13,17 +13,17 @@ This folder contains scripted runs and wrappers for interpolation functions.
 
 - [**/interpmodules**](code/interpmodules/) contains [deterministic](code/interpmodules/deterministic.py) and spatially-informed [stochastic](code/interpmodules/stochastic.py) interpolation functions, as well as benchmark [metrics](code/interpmodules/metrics.py) and [helper](code/interpmodules/helpers.py) functions that support them.
 
-- The various ***config.py** files specify global variables such as project directory, analysis parameters, transform matrices, etc.
+- The various ***config** files specify global variables such as project directory, analysis parameters, transform matrices, etc.
 
-- The Python files or notebooks with prefix **getdata** contain code for handling GRF, empirical surface, and empirical volume data.
+- The Python files or notebooks with prefix **getdata_** contain code for handling GRF, empirical surface, and empirical volume data.
 
-- The Python or Bash scripts with prefix **run** contain code to set up and run interpolation for all combinations of data modality/characteristics 
+- The Python or Bash scripts with prefix **run_** contain code to set up and run interpolation for all combinations of data modality/characteristics 
 
-- Notebooks with prefix **res1** contain code to generate figures from analyses with GRF
+- Notebooks with prefix **res1_** contain code to generate figures from analyses with GRF
 
-- Notebooks with prefix **res2** contain code to generate figures from analyses with empirical surface maps (Neuromaps)
+- Notebooks with prefix **res2_** contain code to generate figures from analyses with empirical surface maps (Neuromaps)
 
-- Notebooks with prefix **use_case** contain code to generate figures from analyses with empirical volumetric data (iEEG or microarray)
+- Notebooks with prefix **use_case_** contain code to generate figures from analyses with empirical volumetric data (iEEG or microarray)
 
 
 ### /data
