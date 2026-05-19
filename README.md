@@ -30,7 +30,7 @@ This folder contains scripted runs and wrappers for interpolation functions.
 
 This folder contains GRF, empirical surface and volume maps (from Neuromaps), each stored as a Pyvista.PolyData object.
 
-- [**/sampling**](data/sampling/) contains data matrixes that shuffle training and testing samples with the spherical or midthckness template surfaces. They can be re-generated with the **getdata** scripts.
+- [**/sampling**](data/sampling/) contains data matrixes that shuffle training and testing samples with the spherical or midthckness template surfaces. They can be re-generated with the **getdata_** scripts.
 
 - [**/yee_transformed-points**](data/yee_transformed-points/) contains MNI coordinates from [Yee et al., 2025](https://doi.org/10.1101/2025.06.02.656812), fetched from its [related public repository](https://github.com/CoBrALab/AllenHumanGeneMNI/tree/master/transformed-points)
 
