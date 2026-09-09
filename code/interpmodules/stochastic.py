@@ -112,8 +112,19 @@ def _make_a_kriger(X0, Y0, x1, yk1=None, Yk0=None, model = 'exponential', method
     
     x, y = binned_vario.get_empirical(bin_center=True)
 
-    bounds = (0.00001, [np.nanmax(x), np.nanmax(y), np.nanmax(y)/10])
-    binned_vario.fit(force=True, method = 'trf', p0=bounds[1], maxfev=1000)
+    bounds = {3: ([0.00001]*3, [np.max(x), np.nanmax(y), np.nanmax(y)/25]),
+          4: ([0.00001]*4, [np.max(x), np.nanmax(y), np.nanmax(y)/25, 1])
+         }
+
+    #bounds = (0.00001, [np.nanmax(x), np.nanmax(y), np.nanmax(y)/10])
+
+    if model in ['stable', 'matern']:
+        binned_vario.fit(force=True, method = 'trf', p0=bounds[4][1], maxfev=1000)
+    
+    else:
+        binned_vario.fit(force=True, method = 'trf', p0=bounds[3][1], maxfev=1000)
+        
+    
 
     if plotit:
         import matplotlib.pyplot as plt
